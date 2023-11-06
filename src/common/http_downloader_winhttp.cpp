@@ -239,7 +239,7 @@ bool HTTPDownloaderWinHttp::StartRequest(HTTPDownloader::Request* request)
   if (!WinHttpCrackUrl(url_wide.c_str(), static_cast<DWORD>(url_wide.size()), 0, &uc))
   {
     Log_ErrorPrintf("WinHttpCrackUrl() failed: %u", GetLastError());
-    req->callback(-1, std::string(), req->data);
+    req->callback(HTTP_STATUS_ERROR, std::string(), req->data);
     delete req;
     return false;
   }
@@ -251,7 +251,7 @@ bool HTTPDownloaderWinHttp::StartRequest(HTTPDownloader::Request* request)
   if (!req->hConnection)
   {
     Log_ErrorPrintf("Failed to start HTTP request for '%s': %u", req->url.c_str(), GetLastError());
-    req->callback(-1, std::string(), req->data);
+    req->callback(HTTP_STATUS_ERROR, std::string(), req->data);
     delete req;
     return false;
   }
